@@ -1,0 +1,106 @@
+# Dependencies
+node_modules/
+vendor/
+.pnpm-store/
+.yarn/
+
+# Build output
+dist/
+build/
+.next/
+.nuxt/
+output/
+out/
+target/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Version control
+.git/
+
+# Environment & secrets
+.env
+.env.*
+*.pem
+*.key
+credentials.*
+secrets/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Coverage & test artifacts
+coverage/
+.nyc_output/
+.coverage
+htmlcov/
+
+# Generated code
+*.generated.*
+*.gen.*
+*-generated.*
+src/generated/
+
+# Media files
+*.zip
+*.tar.gz
+*.tgz
+*.mp4
+*.mov
+*.avi
+*.mp3
+*.wav
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.webp
+*.woff
+*.woff2
+*.ttf
+*.pdf
+*.pptx
+
+# Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Minified
+*.min.js
+*.min.css
+
+# Database dumps
+*.dump
+*.sql.gz
+data/dumps/
+
+# Docker
+.docker/
+
+# Terraform
+.terraform/
+*.tfstate*
+
+# Storybook build
+storybook-static/
+
+# Playwright artifacts
+playwright-report/
+test-results/

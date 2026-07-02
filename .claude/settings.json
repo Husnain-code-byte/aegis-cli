@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+
+  "model": "deepseek-v4-pro[1m]",
+
+  "alwaysThinkingEnabled": true,
+
+  "autoCompactEnabled": true,
+
+  "autoMemoryEnabled": true,
+
+  "cleanupPeriodDays": 30,
+
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Bash(git *)",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(yarn *)",
+      "Bash(pnpm *)",
+      "Bash(tsc *)",
+      "Bash(eslint *)",
+      "Bash(prettier *)",
+      "Bash(vitest *)",
+      "Bash(jest *)",
+      "Bash(pytest *)",
+      "Bash(uv *)",
+      "Bash(cargo *)",
+      "Bash(go *)",
+      "Bash(docker *)",
+      "Bash(mkdir *)",
+      "Bash(cd *)",
+      "Bash(pwd *)",
+      "Bash(node *)",
+      "Bash(python *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(find *)"
+    ],
+    "ask": [
+      "Bash(git push *)",
+      "Bash(git commit *)",
+      "Bash(npm publish *)",
+      "Bash(docker push *)",
+      "Bash(curl *)",
+      "Bash(wget *)",
+      "Bash(rm *)",
+      "Bash(chmod *)",
+      "Bash(chown *)",
+      "Bash(sudo *)",
+      "Bash(shutdown *)",
+      "Bash(reboot *)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./**/.env)",
+      "Read(./**/secrets/**)",
+      "Read(./**/credentials.*)",
+      "Bash(rm -rf *)",
+      "Bash(git push --force *)",
+      "Bash(gh pr close *)",
+      "Bash(gh repo delete *)"
+    ],
+    "additionalDirectories": ["../docs/"]
+  },
+
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.deepseek.com/anthropic",
+    "ANTHROPIC_API_KEY": "sk-2310ce66a9df44d59966365332376b19",
+    "ANTHROPIC_MODEL": "deepseek-v4-pro[1m]",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "NODE_ENV": "development"
+  },
+
+  "claudeMdExcludes": [
+    "**/node_modules/**",
+    "**/dist/**"
+  ]
+}
