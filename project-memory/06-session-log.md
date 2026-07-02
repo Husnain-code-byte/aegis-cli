@@ -330,4 +330,32 @@
   - formatError purity verified (idempotent, no I/O)
   - printError exit code verification (3/2/1/custom)
   - printWarning no-exit guarantee verified
-- **Next Session:** Continue with next feature in build order.
+- **Next Session:** Continue with next Workspace Scanner or Terminal UI feature.
+
+### Session: 2026-07-02 — Aegis CLI F-007 Workspace Detection (Full Lifecycle)
+- **Feature:** F-007 — Workspace Detection
+- **Phase:** 5A (Spec) → 5B (Red) → 5C (Green)
+- **Status:** completed
+- **Scope:** Foundation of Workspace Scanner subsystem. Directory detection, upward walk, validation.
+- **Done:**
+  - Spec: 16 Gherkin scenarios. Spec-reviewer found 7 blockers (ambiguous assertions, untestable steps, EACCES detection, WorkspaceError location) — fixed in implementation.
+  - Extended `src/shared/types.ts`: Added WorkspaceDetection interface.
+  - Extended `src/shared/errors.ts`: Added WorkspaceError class (exit codes 2/3).
+  - Red Phase: 16 tests failing (ESM spy limitation on node:fs).
+  - Green Phase: `src/scanner/workspace.ts` (130 lines) — detectWorkspace() and validateWorkspace().
+  - Upward walk algorithm: starts at cwd, walks up, tracks partial matches, stops at filesystem boundary. Max depth 100.
+  - Real filesystem tests using fs.mkdtempSync — avoided ESM vi.spyOn limitation.
+  - 15 tests green (204 total across 6 test files).
+  - This project is a valid workspace — integration test verifies `detectWorkspace(process.cwd()).valid === true`.
+- **Not Done:**
+  - Symlink cycle detection not fully tested (requires real symlinks — Windows admin privilege).
+  - EACCES detection not unit-tested (requires real permission changes).
+  - validateWorkspace errors for EACCES/ELOOP not tested (deferred to integration).
+- **Learned:** Vitest's `vi.spyOn` cannot mock ESM `node:fs` exports — the module namespace is sealed. Solution: use real filesystem operations with temporary directories. The upward walk algorithm needs partial-match tracking: when one marker (.claude/) is found but the other isn't, the walk must remember that level and report it as the root, otherwise it continues to the filesystem boundary and reports "both missing." Without partial tracking, the walk would continue past valid ANSDLC installations that happen to be missing one directory.
+- **Decisions Made:** WorkspaceError goes in shared/errors.ts per architecture doc (not workspace/ package). Exit codes: 2 = missing dirs/not workspace, 3 = filesystem/permission error. EACCES detected via try/catch on fs.statSync, not fs.existsSync (existsSync returns false on EACCES without throwing).
+- **Verification Results:**
+  - Tests: 204/204 passing across 6 test files
+  - Build: tsup ESM successful
+  - Real workspace: detectWorkspace(process.cwd()).valid === true
+  - validateWorkspace: throws WorkspaceError with correct exit codes
+- **Next Session:** Continue with next feature in build order (F-012 Environment Validation, F-008 CLAUDE.md Parser, or remaining Terminal UI features).

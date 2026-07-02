@@ -1,0 +1,1 @@
+- [Spec Conventions](spec-conventions.md) -- Gherkin/BDD spec structure for Aegis CLI features (16 scenarios, 6 gates, PR/FAQ pattern)

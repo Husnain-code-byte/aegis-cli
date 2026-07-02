@@ -37,3 +37,12 @@ export interface ProgramResult {
   stderr: string;
   exitCode: number;
 }
+
+/** Result of ANSDLC workspace detection. */
+export interface WorkspaceDetection {
+  valid: boolean;
+  root?: string;
+  missing?: string[];
+  notAnAnsdlc?: boolean;
+  error?: string;
+}

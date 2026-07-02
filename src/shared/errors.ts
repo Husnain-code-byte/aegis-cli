@@ -92,3 +92,21 @@ export function classifyCommanderError(err: unknown): ClassifiedError {
   // Unexpected — should be re-thrown
   return { exitCode: ce.exitCode ?? 1, isFatal: true };
 }
+
+// ---------------------------------------------------------------------------
+// WorkspaceError
+// ---------------------------------------------------------------------------
+
+/**
+ * Error thrown when workspace detection fails.
+ * Exit codes: 2 = missing directories/not a workspace, 3 = filesystem/permission error.
+ */
+export class WorkspaceError extends Error {
+  public readonly exitCode: number;
+
+  constructor(message: string, exitCode = 2) {
+    super(message);
+    this.name = 'WorkspaceError';
+    this.exitCode = exitCode;
+  }
+}
