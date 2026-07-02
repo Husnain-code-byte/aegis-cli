@@ -151,4 +151,32 @@
   - 4 ADRs: all MADR format with status/chosen option/consequences/alternatives considered
   - Architecture doc: complete rewrite, no template placeholders remain
   - Dependency graph: verified no cycles, cli is sole orchestrator
-- **Next Session:** Begin Phase 5A (Spec Writing). Write Gherkin specs + test plans for F-002 (Command Parser) using spec-writer agent.
+- **Next Session:** Begin Phase 5B (Implementation) for F-002 — build the CLI Entry Point. Implement command parser, help system, version flag, global flags, and error handling per the approved spec.
+
+### Session: 2026-07-02 — Aegis CLI F-002 Spec Writing (Phase 5A)
+- **Feature:** F-002 — CLI Entry Point
+- **Phase:** 5A (Spec Writing)
+- **Status:** completed
+- **Scope:** Write BDD spec + test plan for F-002. Adversarially review until APPROVED. Merge F-003 through F-006 into F-002 per architect decision.
+- **Done:**
+  - Spec written: pr-faq.md, gherkin.feature (30 scenarios), test-plan.md (7 verification gates, 48 test cases)
+  - Adversarial review: 3 rounds. Round 1: NEEDS_REVISION (13 issues). Round 2: NEEDS_REVISION (3 blockers). Round 3: APPROVED.
+  - F-003 (Help), F-004 (Version), F-005 (Flags), F-006 (Errors) merged into F-002 per architect decision Path B
+  - Feature registry updated: F-002 → SPEC_WRITTEN, Medium appetite, F-003-F-006 deleted, total features 28
+  - Subsystem map updated: build order, dependency map, feature tree all reflect merge
+  - 30 Gherkin scenarios covering: 8 command routing, 3 version/help, 4 global flags, 2 error paths, 5 edge cases, 5 spec-review additions, 3 resolved-OQ behaviors
+  - 7 verification gates: TypeScript strict, unit tests (12), integration tests (48), property tests (3 true + 6 parametrized), mutation >= 80%, perf benchmark (<50ms), spec traceability
+  - 48 test cases: 12 unit (U001-U011), 30 integration (T001-T049 minus T025 duplicate), 3 property-based, 6 parametrized
+  - All 5 open questions resolved with architect decisions
+- **Not Done:**
+  - No implementation code (Phase 5B)
+  - No package installation or build setup
+- **Learned:** The spec-reviewer caught a critical scope conflict — the feature registry decomposed CLI Entry Point into 5 separate features but the spec bundled them all. The architect's decision to merge was correct: parsing, help, version, flags, and error handling are one cohesive concern. Adversarial review is essential — round 1 found 13 issues, round 2 found 3 more. The spec is significantly stronger after three review cycles.
+- **Decisions Made:** Architect decision: merge F-003-F-006 into F-002. Resolved all 5 open questions (--json behavior, error format template, --help precedence, suggestion count, workflow visibility). Commander configuration: `.allowUnknownOption(true)` for unknown flag passthrough.
+- **Verification Results:**
+  - Spec-reviewer: APPROVED (round 3)
+  - 30 Gherkin scenarios: 8 routing + 3 help/version + 4 flags + 2 errors + 5 edge + 5 review additions + 3 OQ behaviors
+  - 48 unique test cases (T025 removed as duplicate)
+  - Mutation threshold: 80%
+  - Performance target: <50ms p95
+- **Next Session:** Begin Phase 5B (Implementation) for F-002. Implement the CLI Entry Point: command parser with Commander v15, help system, version flag, global flags, error handling, and suggestion engine. Follow the 30 Gherkin scenarios and 7 verification gates.

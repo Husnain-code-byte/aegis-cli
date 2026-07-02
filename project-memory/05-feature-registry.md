@@ -20,12 +20,8 @@
 
 | ID | Subsystem | Feature | Appetite | Depends On | Build Order | Status | Notes |
 |----|-----------|---------|----------|------------|-------------|--------|-------|
-| F-001 | CLI | Aegis CLI — ANSDLC 2.0 Workflow Guide | — | — | — | SPEC_WRITTEN | Umbrella feature. PR/FAQ written, vision pressure-tested. Decomposed into F-002 through F-032. |
-| F-002 | CLI Entry Point | Command parser and router | Small | — | 1 | PLANNED | Parse `aegis <command> [args]`, route to subsystem handlers |
-| F-003 | CLI Entry Point | Help system | Small | F-002 | 2 | PLANNED | `aegis --help`, `aegis <command> --help` |
-| F-004 | CLI Entry Point | Version flag | Small | F-002 | 3 | PLANNED | `aegis --version` |
-| F-005 | CLI Entry Point | Global flags | Small | F-002 | 4 | PLANNED | `--no-color`, `--json` output |
-| F-006 | CLI Entry Point | Unknown command handler | Small | F-002 | 5 | PLANNED | Suggest similar commands, exit 1 |
+| F-001 | CLI | Aegis CLI — ANSDLC 2.0 Workflow Guide | — | — | — | SPEC_WRITTEN | Umbrella feature. PR/FAQ written, vision pressure-tested. Decomposed into F-002 through F-032. F-003-F-006 merged into F-002 per architect decision 2026-07-02. |
+| F-002 | CLI Entry Point | CLI Entry Point (command parser, help, version, flags, error handling) | Medium | — | 1 | SPEC_WRITTEN | Absorbs F-003 (Help), F-004 (Version), F-005 (Flags), F-006 (Errors). 30 Gherkin scenarios, 48 test cases, 7 verification gates. |
 | F-007 | Workspace Scanner | Workspace detection | Small | F-002 | 10 | PLANNED | Detect .claude/ and project-memory/, validate structure |
 | F-008 | Workspace Scanner | CLAUDE.md parser | Small | F-007 | 12 | PLANNED | Extract project name, phase references, key rules |
 | F-009 | Workspace Scanner | Agent directory scanner | Small | F-007 | 13 | PLANNED | List and parse frontmatter of all .claude/agents/*.md |
@@ -58,14 +54,14 @@
 ## Summary
 | Status | Count |
 |--------|-------|
-| PLANNED | 31 |
-| SPEC_WRITTEN | 1 |
+| PLANNED | 26 |
+| SPEC_WRITTEN | 2 |
 | IN_PROGRESS | 0 |
 | VERIFIED | 0 |
 | COMMITTED | 0 |
 | RELEASED | 0 |
 
-**Total features: 32** (F-001 umbrella + 31 atomic features)
+**Total features: 28** (F-001 umbrella + 27 atomic features; F-003-F-006 merged into F-002)
 
 ---
 

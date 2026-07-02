@@ -144,17 +144,14 @@ See `docs/architecture/system-context.puml` for C4 PlantUML diagram.
 ## Feature Tree
 
 ### Subsystem: CLI Entry Point
-*Responsibility: Parse commands, route to handlers, manage help/version output.*
-*Bounded context: argv parsing, command registry, help text, global flags.*
+*Responsibility: Parse commands, route to handlers, manage help/version output, handle global flags, format errors.*
+*Bounded context: argv parsing, command registry, help text, global flags, error formatting, Levenshtein suggestions.*
 *Interface: Exports a command dispatcher that reads process.argv and calls the appropriate subsystem handler.*
+*Note: F-003 (Help), F-004 (Version), F-005 (Flags), and F-006 (Errors) merged into F-002 per architect decision 2026-07-02.*
 
 | ID | Feature | Appetite | Depends On | Build Order | Status |
 |----|---------|----------|------------|-------------|--------|
-| F-002 | Command parser and router — parse `aegis <command> [args]`, route to subsystems | Small | — | 1 | PLANNED |
-| F-003 | Help system — `aegis --help`, `aegis <command> --help` with usage text | Small | F-002 | 2 | PLANNED |
-| F-004 | Version flag — `aegis --version` reads package.json version | Small | F-002 | 3 | PLANNED |
-| F-005 | Global flags — `--no-color`, `--json` output mode | Small | F-002 | 4 | PLANNED |
-| F-006 | Unknown command handler — format suggestions, exit 1 | Small | F-002 | 5 | PLANNED |
+| F-002 | CLI Entry Point — command parser, help system, version flag, global flags, unknown command handler, error formatting | Medium | — | 1 | SPEC_WRITTEN |
 
 ---
 
@@ -238,11 +235,8 @@ See `docs/architecture/system-context.puml` for C4 PlantUML diagram.
 
 ```
 [CLI Entry Point]
-  ├── F-002: Command parser (no deps) [build 1]
-  ├── F-003: Help system (depends F-002) [build 2]
-  ├── F-004: Version flag (depends F-002) [build 3]
-  ├── F-005: Global flags (depends F-002) [build 4]
-  └── F-006: Unknown command handler (depends F-002) [build 5]
+  └── F-002: CLI Entry Point (no deps) [build 1]
+      (Absorbs F-003 Help, F-004 Version, F-005 Flags, F-006 Errors)
 
 [Terminal UI — core]
   ├── F-023: Boxen renderer (no deps) [build 6]
@@ -294,11 +288,7 @@ See `docs/architecture/system-context.puml` for C4 PlantUML diagram.
 
 | Order | ID | Feature | Subsystem | Rationale |
 |-------|----|---------|-----------|-----------|
-| 1 | F-002 | Command parser | CLI Entry Point | Foundation: everything routes through this |
-| 2 | F-003 | Help system | CLI Entry Point | User-facing immediately after parser |
-| 3 | F-004 | Version flag | CLI Entry Point | Trivial, completes CLI basics |
-| 4 | F-005 | Global flags | CLI Entry Point | Needed by color manager and output formatting |
-| 5 | F-006 | Unknown command handler | CLI Entry Point | Error handling basics |
+| 1 | F-002 | CLI Entry Point (command parser, help, version, flags, errors) | CLI Entry Point | Foundation: everything routes through this. Absorbs F-003-F-006. |
 | 6 | F-023 | Boxen renderer | Terminal UI | Core output primitive, no deps |
 | 7 | F-024 | Color manager | Terminal UI | Core output primitive, no deps |
 | 8 | F-026 | Terminal size detection | Terminal UI | Core output primitive, no deps |
