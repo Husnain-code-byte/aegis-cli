@@ -93,4 +93,31 @@
   - Unit tests: N/A (no code written)
   - Integration tests: N/A
   - Adversarial review: N/A (decomposition, not implementation)
-- **Next Session:** Begin Phase 2 (Reference Collection) using reference-collector agent. Research: CLI frameworks (commander vs yargs vs clipanion), frontmatter parsers, boxen/chalk APIs, ANSDLC 2.0 framework spec.
+- **Next Session:** Begin Phase 3 (Architecture Design) using system-architect agent. Key decisions needed: ESM vs CJS module system, C4 Container diagram, package.json build tooling, CI pipeline design.
+
+### Session: 2026-07-02 — Aegis CLI Reference Collection
+- **Feature:** Aegis CLI (F-001)
+- **Phase:** 2 (Reference Collection)
+- **Status:** completed
+- **Scope:** Research all npm dependencies, cross-platform terminal detection, and API key storage. Output: `docs/research/reference-collection.md`.
+- **Done:**
+  - CLI framework comparison: Commander v14.x recommended over Clipanion and Yargs (popularity, maintenance, command surface fit)
+  - Core CLI packages: chalk v4.1.2 (avoid v5 ESM-only), boxen v8, gradient-string v3, ora v9, @inquirer/prompts, figlet v1.11 — all MIT
+  - File parsing: `@11ty/gray-matter` (maintained fork over abandoned upstream), `tinyglobby` (fastest small-tree globber, 2 deps), `conf` v15
+  - Dev tooling: vitest v4, prettier v3.9, eslint v10 — all solid choices
+  - Terminal detection: 4 packages (supports-color, is-unicode-supported, supports-hyperlinks, terminal-size) + graceful degradation strategy
+  - Windows gotchas: CMD (Level 1 only), PowerShell 5 (Level 2), Windows Terminal (full Level 3)
+  - API key storage: Hybrid approach — env var DEEPSEEK_API_KEY primary, conf plain JSON fallback. keytar rejected (archived, native deps)
+  - ESM recommendation: Use ESM from start, target Node 22.12+
+  - 17 packages documented in summary table, ~180-250KB estimated install footprint
+  - 22 sources cited
+- **Not Done:**
+  - No architecture decisions finalized (recommendations only — decisions in Phase 3)
+  - No package.json or build tooling configuration
+- **Learned:** The npm CLI ecosystem has nearly fully transitioned to ESM-only for latest versions. Staying on CJS means using older versions of chalk, commander, boxen, ora, conf, and @inquirer. The pragmatic choice is ESM from project start.
+- **Decisions Made:** N/A (Phase 2 is research, not decision-making. ADRs in Phase 3.)
+- **Verification Results:**
+  - Completeness: All 12+ packages researched with version, license, maintenance, alternatives
+  - Cross-platform: 6 Windows terminal scenarios documented
+  - Security: 6 storage options compared with threat model analysis
+- **Next Session:** Begin Phase 3 (Architecture Design) using system-architect agent. Key decisions needed: ESM vs CJS module system, C4 Container diagram, package.json build tooling, CI pipeline design.
