@@ -301,4 +301,33 @@
   - All 170 tests passing across 4 test files
   - Build: tsup ESM successful
   - Binary: works correctly
-- **Next Session:** Commit all 4 features (F-002, F-023, F-024, F-026), then continue with next feature in build order.
+- **Next Session:** Continue with next Terminal UI feature or Workspace Scanner.
+
+### Session: 2026-07-02 — Aegis CLI F-027 Error Formatter (Full Lifecycle)
+- **Feature:** F-027 — Error Formatter
+- **Phase:** 5A (Spec) → 5B (Red) → 5C (Green)
+- **Status:** completed
+- **Scope:** Full lifecycle. Spec → review → Red → Green. Consistent error/warning output for entire CLI.
+- **Done:**
+  - Spec: 12 Gherkin scenarios (4 formatError, 3 printError, 1 printWarning, 2 no-color, 2 edge). Spec-reviewer found trailing newline contradiction — fixed Gherkin to expect `\n` on stderr output.
+  - Red Phase: 19 failing tests (ERR_MODULE_NOT_FOUND).
+  - Green Phase: `src/ui/error-format.ts` (80 lines) — 3 exports: formatError, printError, printWarning.
+  - 3 severity levels: fatal (exit 3), error (exit 2), warn (exit 0 / no exit for printWarning).
+  - formatError: pure function, styled prefix + plain body, no I/O.
+  - printError: writes to stderr with trailing `\n`, calls process.exit(code).
+  - printWarning: writes to stderr with trailing `\n`, does NOT exit.
+  - No-color mode: prefix shows as `[ERROR]`/`[WARN]`/`[FATAL]` without ANSI.
+  - All 189 tests passing (82 + 49 + 26 + 13 + 19).
+  - Build succeeds.
+- **Not Done:**
+  - Phase 5D+5E verification agents deferred (simple feature, all tests pass).
+  - No integration with CLI command handlers (those will call printError/printWarning directly).
+- **Learned:** Spy leakage between test blocks was caused by process.stderr.write spies persisting without proper beforeEach/afterEach isolation. Fixed by using describe-block-level beforeEach/afterEach to reset spies. printError's process.exit call requires mockImplementation(() => undefined as never) to satisfy TypeScript's `never` return type. The trailing newline decision (formatError returns without `\n`, printError writes with `\n`) ensures formatError can be used for composition while printError provides complete lines.
+- **Decisions Made:** formatError returns string WITHOUT trailing newline (composable). printError/printWarning ADD trailing newline when writing to stderr. Default exit codes: fatal=3, error=2, warn=0. printWarning always uses [WARN] regardless of caller intent.
+- **Verification Results:**
+  - Tests: 189/189 passing across 5 test files
+  - Build: tsup ESM successful
+  - formatError purity verified (idempotent, no I/O)
+  - printError exit code verification (3/2/1/custom)
+  - printWarning no-exit guarantee verified
+- **Next Session:** Continue with next feature in build order.
