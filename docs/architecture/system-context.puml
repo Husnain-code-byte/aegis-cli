@@ -1,0 +1,40 @@
+@startuml
+!include <C4/C4_Context>
+!include <C4/C4_Context.puml>
+
+' PlantUML C4 System Context diagram for Aegis CLI
+' Generated during Phase 1 (Decomposition) by decomposition-guide agent.
+
+LAYOUT_WITH_LEGEND()
+
+title System Context — Aegis CLI
+
+Person(developer, "Developer", "Uses ANSDLC 2.0 with Claude Code for AI-assisted development")
+
+System_Boundary(aegis_boundary, "Aegis CLI") {
+  System(aegis, "Aegis CLI", "Generates context-aware ANSDLC 2.0 prompts from project state. Reads only, never writes.")
+}
+
+System_Ext(ansdlcWorkspace, "ANSDLC Workspace", "Project directory containing .claude/ (agents, commands, rules), project-memory/ (session logs, feature registry, architecture docs), and CLAUDE.md")
+System_Ext(claudeCode, "Claude Code", "AI coding assistant CLI. Executes prompts that Aegis generates.")
+System_Ext(deepseekApi, "DeepSeek API", "AI model backend. Claude Code sends prompts here for inference.")
+System_Ext(npmRegistry, "npm Registry", "Package registry. Developer installs Aegis via npm install -g aegis-cli.")
+
+' Relationships: Developer
+Rel(developer, aegis, "types CLI commands", "stdin/stdout")
+Rel(developer, claudeCode, "pastes prompts and runs commands", "stdin/stdout")
+Rel(developer, npmRegistry, "installs Aegis", "HTTPS")
+
+' Relationships: Aegis CLI (read-only file system access)
+Rel(aegis, ansdlcWorkspace, "reads .claude/agents/, project-memory/, CLAUDE.md, git state", "file system")
+
+' Relationships: Claude Code
+Rel(claudeCode, ansdlcWorkspace, "reads workspace files for context", "file system")
+Rel(claudeCode, deepseekApi, "sends prompts for AI inference", "HTTPS")
+
+' Indirect relationship
+Rel_L(aegis, claudeCode, "generates prompts consumed by", "copy-paste via developer")
+
+SHOW_LEGEND()
+
+@enduml

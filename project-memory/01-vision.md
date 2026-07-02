@@ -1,4 +1,4 @@
-# Product Vision — PR/FAQ
+# Product Vision — Aegis CLI
 
 > Amazon Working Backwards format. Written during Phase 0 (Vision Crystallization).
 > This document defines WHAT we are building and WHY — not HOW.
@@ -7,63 +7,48 @@
 
 ## Press Release
 
-**[Product Name] — Launching [Date]**
+**Aegis — Your ANSDLC 2.0 Command Center — Launching 2026**
 
-**[City, State]** — [Company Name] today announced **[Product Name]** , a new **[one-line product description]** .
+Aegis is a CLI tool that acts as your ANSDLC 2.0 workflow guide. It lives in your terminal alongside Claude Code and knows everything about your development process — what phase you're in, what to do next, which of your 24 AI agents to invoke, and exactly what prompt to paste into Claude Code.
 
-**[2-3 paragraphs describing the customer problem, the solution, and why it matters. Include at least one customer quote.]**
+Developers using AI-assisted workflows face a constant challenge: remembering which agent does what, what phase comes next, what the verification protocol requires, and how to phrase prompts effectively. Aegis eliminates this cognitive load entirely.
 
-> "[Customer quote demonstrating the pain point and how this solves it.]"
+Aegis reads your project's `.claude/` directory, `project-memory/` files, and git state to understand exactly where you are in the ANSDLC 2.0 lifecycle. It then generates context-aware prompts tailored to your exact situation — your configured agents, your DeepSeek models, your project's feature registry, everything.
 
-**[Paragraph on how it works at a high level — no implementation details.]**
-
-**[Paragraph on why this matters — the impact on customers and the business.]**
+Install globally via npm. Navigate to any ANSDLC 2.0 project. Type `aegis start`. Aegis scans your workspace and shows you a beautiful terminal dashboard with your current phase, next action, and a ready-to-copy prompt. Paste that prompt into Claude Code and watch it execute with full context.
 
 ---
 
 ## FAQ
 
-### External Questions (Customers Ask)
+**Q: What problem does Aegis solve?**
+A: ANSDLC 2.0 is powerful but complex — 24 agents, 9 phases, 11 commands, verification gates, refactoring gates. Developers spend mental energy navigating the framework instead of building product. Aegis removes that friction by always knowing where you are and what comes next.
 
-**Q: What problem does this solve?**
-A: [Clear, concise answer focused on the customer pain point.]
-
-**Q: How is this different from [existing solution]?**
-A: [Specific differentiator — not just "better" or "faster".]
+**Q: How is Aegis different from just reading CLAUDE.md?**
+A: CLAUDE.md tells you the rules. Aegis tells you the action. It reads your actual project state — your git branch, your feature registry, your last session log — and generates a specific prompt for your exact situation. CLAUDE.md is the constitution; Aegis is your guide through it.
 
 **Q: What do I need to get started?**
-A: [Prerequisites, onboarding steps, requirements.]
-
-### Internal Questions (Team Asks)
-
-**Q: What is the success criteria?**
-A: [3-5 measurable, binary outcomes.]
-
-**Q: What are we explicitly NOT building?**
-A: [3-5 anti-goals with reasons.]
-
-**Q: What are the biggest risks?**
-A: [Technical, market, and execution risks.]
-
-**Q: What assumptions are we making?**
-A: [Key assumptions that, if wrong, would invalidate this approach.]
+A: Node.js 18+, an ANSDLC 2.0 workspace, and Claude Code. Install: `npm install -g aegis-cli`. Type `aegis start`.
 
 ---
 
 ## Success Criteria
-1. [Measurable, binary outcome 1]
-2. [Measurable, binary outcome 2]
-3. [Measurable, binary outcome 3]
-4. [Measurable, binary outcome 4]
-5. [Measurable, binary outcome 5]
+1. `aegis start` shows correct phase, action, and prompt — under 1 second
+2. `aegis phase` shows all 9 phases, current phase highlighted in color
+3. `aegis prompt` generates a complete, copyable prompt for Claude Code
+4. `aegis agent <name>` shows description, model, and usage for all 24 agents
+5. `aegis status` shows git branch, feature count, last session date
+6. Works on Windows Terminal, PowerShell, Git Bash with full color support
+7. `npm install -g aegis-cli` installs and is ready with zero config
+8. Generated prompts work correctly when pasted into Claude Code
 
 ## Anti-Goals
-1. [What we are NOT building — and why]
-2. [What we are NOT building — and why]
-3. [What we are NOT building — and why]
-4. [What we are NOT building — and why]
-5. [What we are NOT building — and why]
+1. NOT a Claude Code replacement — generates prompts, doesn't execute them
+2. NOT a GUI application — terminal-only
+3. NOT a project generator — works with existing ANSDLC workspaces
+4. NOT a cloud service — fully local
+5. NOT a code generator — Aegis guides; Claude Code builds
 
 ---
 
-*Last updated: [Date]. Status: [Draft / Approved / Superseded].*
+*Last updated: 2026-07-02. Status: Draft — Phase 0.*

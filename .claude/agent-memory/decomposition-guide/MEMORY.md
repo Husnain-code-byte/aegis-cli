@@ -1,0 +1,1 @@
+- [Aegis CLI Decomposition](aegis-cli-decomposition.md) — Aegis CLI Phase 1 decomposition: 6 subsystems, 31 features, 5 must-resolve items decided
