@@ -120,4 +120,35 @@
   - Completeness: All 12+ packages researched with version, license, maintenance, alternatives
   - Cross-platform: 6 Windows terminal scenarios documented
   - Security: 6 storage options compared with threat model analysis
-- **Next Session:** Begin Phase 3 (Architecture Design) using system-architect agent. Key decisions needed: ESM vs CJS module system, C4 Container diagram, package.json build tooling, CI pipeline design.
+- **Next Session:** Begin Phase 5A (Spec Writing) for first implementation feature. Write Gherkin specs + test plans for F-002 (Command Parser). Use spec-writer agent.
+
+### Session: 2026-07-02 — Aegis CLI Architecture Design
+- **Feature:** Aegis CLI (F-001)
+- **Phase:** 3 (Architecture Design)
+- **Status:** completed
+- **Scope:** Design full architecture: C4 Container diagram, package layout, package.json with pinned versions, build tooling decision, 4 formal ADRs. Output: 8 files.
+- **Done:**
+  - C4 Container diagram: `docs/architecture/containers.puml` — 6 containers (Aegis CLI, ANSDLC Workspace, Config Store, Claude Code, DeepSeek API, npm Registry), all relationships labeled, valid PlantUML
+  - Package architecture: 8 packages (cli, scanner, engine, generator, ui, catalog, store, shared) documented in `project-memory/03-architecture.md` with dependency rules — `cli` is sole orchestrator, no cyclic deps
+  - `package.json`: ESM-only (`"type": "module"`), Node >= 22.12.0, Commander v15 + chalk v5 (ESM-only path), 14 deps + 9 devDeps, tsup config embedded
+  - Build tooling: tsup v8 — esbuild-based, ESM output, `.d.ts` generation, watch mode, target node22
+  - ADR-0001: ESM-Only Module System — explicitly overrides Phase 2 CJS recommendation. All 3 options evaluated.
+  - ADR-0002: API Key Storage — DEEPSEEK_API_KEY env var (primary) + conf JSON (fallback). Plaintext acceptable for local CLI (same as npm/aws-cli). keytar rejected (archived 2022).
+  - ADR-0003: Phase Detection State Machine — priority chain (session log → feature registry → default Phase 0) with confidence levels (HIGH/MEDIUM/LOW). 5 options evaluated.
+  - ADR-0004: Prompt Template Loading — embedded in binary via tsup JSON imports. ~30KB for 10 templates. Rejected external files and remote loading.
+  - ADR index: `docs/adr/README.md` with MADR process documentation
+  - Architecture document: `project-memory/03-architecture.md` rewritten from template with real C4 summaries, package responsibilities, dependency rules, ADR index
+- **Not Done:**
+  - No `src/` source files created (Phase 5A onwards)
+  - No Gherkin specs or test plans (Phase 5A)
+  - No CI/CD pipeline configuration
+- **Learned:** The 8-package structure maps cleanly to the 6 subsystems from Phase 1 plus 2 new concerns (store for API key, shared for cross-cutting). Dependency direction is a clean DAG with no cycles. ADR-0001 rightfully overrides Phase 2's CJS caution — Node 22.12+ is current LTS and all CLI ecosystem packages have completed ESM migration.
+- **Decisions Made:** 4 formal ADRs (0001-0004, all Accepted). 1 build tooling decision (tsup). 1 module system decision (ESM-only). 1 API key decision (env var + conf). 1 phase detection decision (priority chain). 1 template loading decision (embedded).
+- **Verification Results:**
+  - All 8 artifacts exist on disk and pass structural validation
+  - package.json: all 23 version pins match Phase 2 research
+  - containers.puml: valid PlantUML C4 Container diagram with labeled relationships
+  - 4 ADRs: all MADR format with status/chosen option/consequences/alternatives considered
+  - Architecture doc: complete rewrite, no template placeholders remain
+  - Dependency graph: verified no cycles, cli is sole orchestrator
+- **Next Session:** Begin Phase 5A (Spec Writing). Write Gherkin specs + test plans for F-002 (Command Parser) using spec-writer agent.

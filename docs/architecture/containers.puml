@@ -1,0 +1,40 @@
+@startuml
+!include <C4/C4_Container>
+!include <C4/C4_Container.puml>
+
+LAYOUT_WITH_LEGEND()
+
+title Container Diagram — Aegis CLI
+
+Person(developer, "Developer", "Types CLI commands, pastes generated prompts into Claude Code")
+
+System_Boundary(aegis_boundary, "Aegis CLI") {
+  Container(aegis, "Aegis CLI", "Node.js CLI (Commander + chalk)", "Generates context-aware prompts from ANSDLC workspace state. Reads only, never writes. Outputs prompts to terminal for copy-paste into Claude Code.")
+}
+
+ContainerDb(ansdlcWorkspace, "ANSDLC Workspace", "File System", "Project directory containing .claude/ (agents, commands, rules), project-memory/ (session logs, feature registry, architecture), CLAUDE.md, and git repository")
+ContainerDb(configStore, "Config Store", "File System", "conf JSON file at OS-correct path. Linux: ~/.config/aegis-nodejs/config.json, Windows: %APPDATA%\\aegis-nodejs\\Config\\config.json, macOS: ~/Library/Preferences/aegis-nodejs/config.json")
+
+System_Ext(claudeCode, "Claude Code", "Anthropic's AI coding assistant. Executes prompts Aegis generates by reading workspace files and sending API calls to DeepSeek.")
+System_Ext(deepseekApi, "DeepSeek API", "LLM inference API. Receives prompts from Claude Code for code generation.")
+System_Ext(npmRegistry, "npm Registry", "Package distribution channel. Developer installs Aegis via npm install -g aegis-cli.")
+
+' Relationships: Developer
+Rel(developer, aegis, "types CLI commands (start, phase, agent, prompt, status, config)", "stdin/stdout")
+Rel(developer, claudeCode, "pastes generated prompts into and runs", "stdin/stdout")
+Rel(developer, npmRegistry, "installs Aegis from", "HTTPS")
+
+' Relationships: Aegis CLI (read-only file system access)
+Rel(aegis, ansdlcWorkspace, "reads .claude/agents/*.md, project-memory/*.md, CLAUDE.md, git state", "file system (read-only)")
+Rel(aegis, configStore, "reads/writes DeepSeek API key and preferences", "file system (conf)")
+
+' Relationships: Claude Code
+Rel(claudeCode, ansdlcWorkspace, "reads workspace files for context during execution", "file system")
+Rel(claudeCode, deepseekApi, "sends prompts for AI inference", "HTTPS")
+
+' Indirect relationship between Aegis and Claude Code
+Rel_L(aegis, claudeCode, "generates prompts that are pasted into", "copy-paste via developer")
+
+SHOW_LEGEND()
+
+@enduml

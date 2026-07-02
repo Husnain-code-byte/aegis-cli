@@ -1,0 +1,1 @@
+- [Aegis CLI Architecture](project_aegis_architecture.md) — Phase 3 completed: 8 packages, 4 ADRs, ESM-only
