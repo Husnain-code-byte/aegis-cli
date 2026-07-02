@@ -34,31 +34,32 @@
     "node": ">=22.12.0"
   },
   "dependencies": {
-    "commander": "^15.0.0",
-    "chalk": "^5.6.2",
-    "boxen": "^8.0.1",
-    "gradient-string": "^3.0.0",
-    "ora": "^9.4.1",
+    "@11ty/gray-matter": "^2.1.0",
     "@inquirer/prompts": "^8.5.2",
-    "figlet": "^1.11.0",
-    "@11ty/gray-matter": "^7.0.0",
-    "tinyglobby": "^0.2.17",
+    "boxen": "^8.0.1",
+    "chalk": "^5.6.2",
+    "commander": "^15.0.0",
     "conf": "^15.1.0",
+    "fast-levenshtein": "^3.0.0",
+    "figlet": "^1.11.0",
+    "gradient-string": "^3.0.0",
     "is-unicode-supported": "^2.1.0",
+    "ora": "^9.4.1",
     "supports-color": "^10.2.2",
-    "supports-hyperlinks": "^4.4.0",
-    "terminal-size": "^4.0.1"
+    "supports-hyperlinks": "^4.5.0",
+    "terminal-size": "^4.0.1",
+    "tinyglobby": "^0.2.17"
   },
   "devDependencies": {
-    "tsup": "^8.0.0",
-    "typescript": "^5.8.0",
-    "vitest": "^4.1.0",
-    "prettier": "^3.9.0",
-    "eslint": "^10.1.0",
+    "@types/figlet": "^1.7.0",
+    "@types/node": "^22.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
-    "@types/figlet": "^1.7.0",
-    "@types/node": "^22.0.0"
+    "eslint": "^10.1.0",
+    "prettier": "^3.9.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.8.0",
+    "vitest": "^4.1.0"
   },
   "tsup": {
     "entry": [
